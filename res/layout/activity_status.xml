@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/background"
     android:orientation="vertical" >
 
     <TextView
@@ -9,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
+        android:textColor="@android:color/white"
         android:text="@string/titleStatus"
         android:textSize="30sp" />
 
@@ -27,6 +29,7 @@
         android:layout_weight="1"
         android:hint="@string/hintText"
         android:id="@+id/editText"
+        android:background="#cfff"
         android:gravity="top|center_horizontal">
     </EditText>
 
