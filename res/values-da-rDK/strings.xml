@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="action_settings">Indstillinger</string>
+    <string name="hello_world">Hej Verden!</string>
+    <string name="titleStatus">Status Opdatering</string>
+    <string name="buttonUpdate">Opdatér</string>
+    <string name="hintText">Vær venlig at skrive din 140-tegns status</string>
+    
+</resources>
