@@ -20,4 +20,7 @@
     <string name="titleApiRoot">API Root URL</string>
     <string name="summaryApiRoot">http://yamba.marakana.com/api</string>
     
+    <!--  UpdaterSerivce -->
+    <string name="titleServiceStart">Start</string>
+    <string name="titleServiceStop">Stop</string>
 </resources>
