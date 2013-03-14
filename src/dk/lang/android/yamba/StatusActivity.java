@@ -6,11 +6,8 @@ import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,13 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StatusActivity extends Activity implements OnClickListener, TextWatcher, OnSharedPreferenceChangeListener {
+public class StatusActivity extends Activity implements OnClickListener, TextWatcher {
 	private static final String TAG = "StatusActivity";
 	EditText editText;
 	Button updateButton;
-	Twitter twitter;
 	TextView textCount;
-	SharedPreferences prefs;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +43,6 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		textCount.setTextColor(Color.GREEN);
 		editText.addTextChangedListener(this);
 
-		// Setup preferences
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(this);
-		
-	
-		//twitter = new Twitter("student", "password");
-		//twitter.setAPIRootUrl("http://yamba.marakana.com/api");
-		//twitter = getTwitter();
 	}
 	public void onDestroy() { /* only used for debugging */
 		super.onDestroy();
@@ -65,18 +52,7 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		super.onResume();
 		ViewServer.get(this).setFocusedWindow(this);
 	}
-	private Twitter getTwitter(){
-		if (twitter == null) {
-			String username, password, apiRoot;
-			username = prefs.getString("username", "");
-			password = prefs.getString("password", "");
-			apiRoot = prefs.getString("apiRoot","http://yamba.marakana.com/api");
-			// Connect to twitter.com
-			twitter = new Twitter(username, password);
-			twitter.setAPIRootUrl(apiRoot);
-		}
-		return twitter;
-	}
+	
 	// Asynchronously post to twitter 
 	// (without this, we will get an android.os.NetworkOnMainThreadException)
 	// Gingerbread let you do networking on the UI threat, from Honeycomb this is no longer possible
@@ -85,7 +61,8 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		@Override
 		protected String doInBackground(String... statuses) {
 			try {
-				Twitter.Status status = getTwitter().updateStatus(statuses[0]);
+				YambaApplication yamba = ((YambaApplication) getApplication());
+				Twitter.Status status = yamba.getTwitter().updateStatus(statuses[0]);
 				return status.text;
 			} catch (TwitterException e) {
 				Log.e(TAG, e.toString());
@@ -143,9 +120,4 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 	}
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 	public void onTextChanged(CharSequence s, int start, int before, int count) {}
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-		// invalidate twitter object
-		twitter = null; // we are using the object as immutable?!?
-	}
 }
