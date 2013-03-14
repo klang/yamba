@@ -20,12 +20,12 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:id="@+id/textCount"
-        android:text="000"
+        android:text=""
         android:layout_marginRight="10dp"/>
     
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dip"
         android:layout_weight="1"
         android:hint="@string/hintText"
         android:id="@+id/editText"
@@ -38,6 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:background="#afff"
         android:text="@string/buttonUpdate" />
 
 </LinearLayout>

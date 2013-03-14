@@ -1,5 +1,7 @@
 package dk.lang.android.yamba;
 
+import com.android.debug.hv.ViewServer;
+
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 import android.os.AsyncTask;
@@ -27,6 +29,7 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ViewServer.get(this).addWindow(this); /* only used for debugging */
 		setContentView(R.layout.activity_status);
 		
 		// Find views
@@ -41,6 +44,14 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		
 		twitter = new Twitter("student", "password");
 		twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+	}
+	public void onDestroy() { /* only used for debugging */
+		super.onDestroy();
+		ViewServer.get(this).removeWindow(this);
+	}
+	public void onResume() { /* only used for debugging */
+		super.onResume();
+		ViewServer.get(this).setFocusedWindow(this);
 	}
 	
 	// Asynchronously post to twitter 
