@@ -1,5 +1,8 @@
 package dk.lang.android.yamba;
 
+import java.util.List;
+import winterwell.jtwitter.Twitter;
+import winterwell.jtwitter.TwitterException;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -11,6 +14,7 @@ public class UpdaterService extends Service {
 	static final int DELAY = 60000;
 	private boolean runFlag = false;
 	private Updater updater;
+	private YambaApplication yamba;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -20,6 +24,7 @@ public class UpdaterService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		this.yamba = (YambaApplication)getApplication();
 		this.updater = new Updater();
 		Log.d(TAG, "onCreated");
 	}
@@ -29,6 +34,7 @@ public class UpdaterService extends Service {
 		super.onStartCommand(intent, flags, startId);
 		this.runFlag=true;
 		this.updater.start();
+		this.yamba.setServiceRunning(true);
 		Log.d(TAG, "onStarted");
 		return START_STICKY;
 	}
@@ -39,6 +45,7 @@ public class UpdaterService extends Service {
 		this.runFlag=false;
 		this.updater.interrupt();
 		this.updater = null;
+		this.yamba.setServiceRunning(false);
 		Log.d(TAG, "onDestroyed");
 	}
 	
@@ -46,6 +53,8 @@ public class UpdaterService extends Service {
 	 * Threat that performs the actual update from the online service
 	 */
 	private class Updater extends Thread {
+		List<Twitter.Status> timeline;
+		
 		public Updater(){
 			super("UpdaterService-Updater");
 		}
@@ -58,6 +67,16 @@ public class UpdaterService extends Service {
 				Log.d(TAG, "Updater running");
 				try {
 					// Some work goes here ...
+					// Get the timeline from the cloud
+					try {
+						timeline = yamba.getTwitter().getFriendsTimeline();
+					} catch (TwitterException e) {
+						Log.e(TAG, "Failed to connect to twitter service", e);
+					}
+					// Loop over the timeline and print it out
+					for (Twitter.Status status : timeline) {
+						Log.d(TAG, String.format("%s:%s", status.user.name, status.text));
+					}
 					Log.d(TAG, "Updater ran");
 					Thread.sleep(DELAY);
 				} catch (InterruptedException e) {
