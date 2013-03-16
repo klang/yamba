@@ -4,7 +4,10 @@ import java.util.List;
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -16,6 +19,9 @@ public class UpdaterService extends Service {
 	private Updater updater;
 	private YambaApplication yamba;
 	
+	DbHelper dbHelper;
+	SQLiteDatabase db;
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -26,6 +32,7 @@ public class UpdaterService extends Service {
 		super.onCreate();
 		this.yamba = (YambaApplication)getApplication();
 		this.updater = new Updater();
+		dbHelper = new DbHelper(this);
 		Log.d(TAG, "onCreated");
 	}
 	
@@ -66,17 +73,34 @@ public class UpdaterService extends Service {
 			while (updaterService.runFlag) {
 				Log.d(TAG, "Updater running");
 				try {
-					// Some work goes here ...
 					// Get the timeline from the cloud
 					try {
 						timeline = yamba.getTwitter().getFriendsTimeline();
 					} catch (TwitterException e) {
 						Log.e(TAG, "Failed to connect to twitter service", e);
 					}
+					// Open the databse for writing
+					db = dbHelper.getWritableDatabase();
+					
 					// Loop over the timeline and print it out
+					ContentValues values = new ContentValues();
 					for (Twitter.Status status : timeline) {
-						Log.d(TAG, String.format("%s:%s", status.user.name, status.text));
+						// Insert into databse
+						values.clear(); 
+						values.put(DbHelper.C_ID, status.id);
+						values.put(DbHelper.C_CREATED_AT,  status.createdAt.getTime());
+						values.put(DbHelper.C_SOURCE, status.source);
+						values.put(DbHelper.C_TEXT, status.text);
+						values.put(DbHelper.C_USER, status.user.name);
+						try {
+							db.insertOrThrow(DbHelper.TABLE, null, values);
+							Log.d(TAG, String.format("%s-%s-%s:%s", status.id, status.source, status.user.name, status.text));
+						} catch (SQLException e) {
+							// ignore the exception
+						}
 					}
+					// Close the database
+					db.close();
 					Log.d(TAG, "Updater ran");
 					Thread.sleep(DELAY);
 				} catch (InterruptedException e) {
@@ -86,3 +110,11 @@ public class UpdaterService extends Service {
 		}
 	} // Updater
 }
+
+
+
+
+
+
+
+
