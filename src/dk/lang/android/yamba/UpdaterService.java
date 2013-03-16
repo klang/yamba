@@ -14,7 +14,6 @@ public class UpdaterService extends Service {
 	private Updater updater;
 	private YambaApplication yamba;
 	
-	DbHelper dbHelper;
 	SQLiteDatabase db;
 	
 	@Override
@@ -27,7 +26,6 @@ public class UpdaterService extends Service {
 		super.onCreate();
 		this.yamba = (YambaApplication)getApplication();
 		this.updater = new Updater();
-		dbHelper = new DbHelper(this);
 		Log.d(TAG, "onCreated");
 	}
 	
@@ -55,7 +53,6 @@ public class UpdaterService extends Service {
 	 * Threat that performs the actual update from the online service
 	 */
 	private class Updater extends Thread {
-		
 		public Updater(){
 			super("UpdaterService-Updater");
 		}

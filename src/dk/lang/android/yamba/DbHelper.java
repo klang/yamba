@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+@Deprecated
 public class DbHelper extends SQLiteOpenHelper {
 	static final String TAG = "DbHelper";
 	static final String DB_NAME = "timeline.db";

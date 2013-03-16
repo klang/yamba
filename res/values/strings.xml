@@ -23,4 +23,8 @@
     <!--  UpdaterSerivce -->
     <string name="titleServiceStart">Start</string>
     <string name="titleServiceStop">Stop</string>
+    
+    <!-- TimelineActivity -->
+    <string name="titleTimeline">Timeline</string>
+    
 </resources>
