@@ -30,5 +30,6 @@
     
     <!-- TimelineActivity -->
     <string name="titleTimeline">Timeline</string>
+    <string name="msgSetupPrefs">insert username and password</string>
     
 </resources>
