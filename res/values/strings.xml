@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<!-- BaseActivity -->
+	<string name="msgAllDataPurged">All Data Purged</string>
+	<string name="titleToggleService">Toggle Service</string>
+	<string name="titlePurge">Purge Data</string>
+			
     <!-- StatusActivity -->
     <string name="app_name">Yamba</string>
     <string name="titleYamba">Yamba</string>
