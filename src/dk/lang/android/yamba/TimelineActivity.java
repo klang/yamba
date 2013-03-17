@@ -4,20 +4,30 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 public class TimelineActivity extends Activity {
-	DbHelper dbHelper;
+	DbHelper dbHelper; // this was deprecated in chapter 9 .. we are now in chapter 10
 	SQLiteDatabase db;
 	Cursor cursor;
-	TextView textTimeline;
+	ListView listTimeline;
+	TimelineAdapter adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.timeline_basic);
+		setContentView(R.layout.timeline);
+		
+		listTimeline = (ListView) findViewById(R.id.listTimeline);
+		
+		// Connect to database
+		dbHelper = new DbHelper(this);
+		db = dbHelper.getReadableDatabase();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -31,14 +41,8 @@ public class TimelineActivity extends Activity {
 		cursor = db.query(DbHelper.TABLE,  null,  null,  null,  null,  null, DbHelper.C_CREATED_AT + " Desc");
 		startManagingCursor(cursor);
 		
-		// Iterate over all the data and print it out
-		String user, text, output;
-		while (cursor.moveToNext()) {
-			user = cursor.getString(cursor.getColumnIndex(DbHelper.C_USER));
-			text = cursor.getString(cursor.getColumnIndex(DbHelper.C_TEXT));
-			output = String.format("%s: %s\n", user, text);
-			textTimeline.append(output);
-		}
+		adapter = new TimelineAdapter(this, cursor);
+		listTimeline.setAdapter(adapter);
 	}
 
 	@Override
