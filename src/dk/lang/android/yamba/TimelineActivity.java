@@ -1,11 +1,15 @@
 package dk.lang.android.yamba;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 public class TimelineActivity extends Activity {
@@ -14,6 +18,18 @@ public class TimelineActivity extends Activity {
 	Cursor cursor;
 	ListView listTimeline;
 	TimelineAdapter adapter;
+	// View binder constant to inject business logic that converts a timestamp to relative time
+	static final ViewBinder VIEW_BINDER = new ViewBinder() {
+		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+			if (view.getId() != R.id.textCreatedAt)
+				return false;			
+			// Update the created at text to relative time
+			Long timestamp = cursor.getLong(columnIndex);
+			CharSequence relTime = DateUtils.getRelativeTimeSpanString(view.getContext(), timestamp);
+			((TextView) view).setText(relTime);
+			return true;
+		}
+	};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,7 @@ public class TimelineActivity extends Activity {
 		startManagingCursor(cursor);
 		
 		adapter = new TimelineAdapter(this, cursor);
+		adapter.setViewBinder(VIEW_BINDER);
 		listTimeline.setAdapter(adapter);
 	}
 
