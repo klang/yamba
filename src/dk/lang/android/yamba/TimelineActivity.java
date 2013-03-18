@@ -74,7 +74,7 @@ public class TimelineActivity extends BaseActivity {
 		registerReceiver(receiver,filter);
 		
 		adapter = new TimelineAdapter(this, cursor);
-		adapter.setViewBinder(VIEW_BINDER);
+		// adapter.setViewBinder(VIEW_BINDER); // TODO: should the VIEW_BINDER be here?
 		listTimeline.setAdapter(adapter);	
 		//this.setupList();		
 	}
@@ -84,6 +84,7 @@ public class TimelineActivity extends BaseActivity {
 		unregisterReceiver(receiver);
 	}
 	
+	// TODO: remove unused code
 	@Deprecated
 	private void setupList() {
 		// DbHelper.C_CREATED_AT + " Desc" == the private StatusData.GET_ALL_ORDER_BY
