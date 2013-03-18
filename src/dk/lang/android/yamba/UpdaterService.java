@@ -1,5 +1,7 @@
 package dk.lang.android.yamba;
 
+
+
 import android.app.Service;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +10,8 @@ import android.util.Log;
 
 public class UpdaterService extends Service {
 	static final String TAG = "UpdaterService";
+	public static final String NEW_STATUS_INTENT = "dk.lang.yamba.NEW_STATUS";
+	public static final String NEW_STATUS_EXTRA_COUNT = "NEW_STATUS_EXTRA_COUNT";
 
 	static final int DELAY = 60000;
 	private boolean runFlag = false;
@@ -53,6 +57,8 @@ public class UpdaterService extends Service {
 	 * Threat that performs the actual update from the online service
 	 */
 	private class Updater extends Thread {
+		Intent intent;
+		
 		public Updater(){
 			super("UpdaterService-Updater");
 		}
@@ -68,6 +74,9 @@ public class UpdaterService extends Service {
 					int newUpdates = yamba.fetchStatusUpdates();
 					if (newUpdates > 0) {
 						Log.d(TAG, "We have a new status");
+						intent = new Intent (NEW_STATUS_INTENT);
+						intent.putExtra(NEW_STATUS_EXTRA_COUNT, newUpdates);
+						updaterService.sendBroadcast(intent);
 					}
 					Thread.sleep(DELAY);
 				} catch (InterruptedException e) {
