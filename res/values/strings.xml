@@ -31,5 +31,8 @@
     <!-- TimelineActivity -->
     <string name="titleTimeline">Timeline</string>
     <string name="msgSetupPrefs">insert username and password</string>
-    
+    <string name="send_timeline_notifications_permission_label"></string>
+    <string name="send_timeline_notifications_permission_description"></string>
+    <string name="receive_timeline_notifications_permission_label"></string>
+    <string name="receive_timeline_notifications_permission_description"></string>
 </resources>

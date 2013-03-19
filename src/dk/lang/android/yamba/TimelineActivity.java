@@ -1,6 +1,5 @@
 package dk.lang.android.yamba;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TimelineActivity extends BaseActivity {
 	DbHelper dbHelper; // this was deprecated in chapter 9 .. we are now in chapter 10
@@ -28,7 +26,9 @@ public class TimelineActivity extends BaseActivity {
 	// wtf? disregarding the StatusData work again?!? (p.145)
 	static final String[] FROM = {DbHelper.C_CREATED_AT, DbHelper.C_USER, DbHelper.C_TEXT};
 	static final int[] TO = { R.id.textCreatedAt, R.id.textUser, R.id.textText };		
-
+	static final String SEND_TIMELINE_NOTIFICATIONS = 
+			"dk.lang.yamba.SEND_TIMELINE_NOTIFICATIONS";
+	
 	SimpleCursorAdapter adapter;
 	// View binder constant to inject business logic that converts a timestamp to relative time
 	static final ViewBinder VIEW_BINDER = new ViewBinder() {
@@ -76,7 +76,8 @@ public class TimelineActivity extends BaseActivity {
 		adapter = new TimelineAdapter(this, cursor);
 		// adapter.setViewBinder(VIEW_BINDER); // TODO: should the VIEW_BINDER be here?
 		listTimeline.setAdapter(adapter);	
-		//this.setupList();		
+		//this.setupList();	
+		super.registerReceiver(receiver, filter, SEND_TIMELINE_NOTIFICATIONS, null);
 	}
 	@Override
 	protected void onPause(){

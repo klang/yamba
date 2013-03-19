@@ -57,6 +57,8 @@ public class UpdaterService extends Service {
 	 * Threat that performs the actual update from the online service
 	 */
 	private class Updater extends Thread {
+		static final String RECEIVE_TIMELINE_NOTIFICATIONS = 
+				"dk.lang.yamba.RECEIVE_TIMELINE_NOTIFICATIONS";
 		Intent intent;
 		
 		public Updater(){
@@ -76,7 +78,7 @@ public class UpdaterService extends Service {
 						Log.d(TAG, "We have a new status");
 						intent = new Intent (NEW_STATUS_INTENT);
 						intent.putExtra(NEW_STATUS_EXTRA_COUNT, newUpdates);
-						updaterService.sendBroadcast(intent);
+						updaterService.sendBroadcast(intent, RECEIVE_TIMELINE_NOTIFICATIONS);
 					}
 					Thread.sleep(DELAY);
 				} catch (InterruptedException e) {
