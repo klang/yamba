@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 
@@ -59,15 +60,39 @@ public class StatusData {
 		this.dbHelper.close();
 	}
 
-	public void insertOrIgnore(ContentValues values) {
+	// return value has been changed from void to long to accomodate the StatusProvider.
+	public long insertOrIgnore(ContentValues values) {
 		Log.d(TAG, "insertOrIgnore on " + values);
 		SQLiteDatabase db = this.dbHelper.getWritableDatabase();
 		try {
-			db.insertWithOnConflict(TABLE,  null,  values,  SQLiteDatabase.CONFLICT_IGNORE);
+		    return db.insertWithOnConflict(TABLE,  null,  values,  SQLiteDatabase.CONFLICT_IGNORE);
 		} finally {
 			db.close();
-		}
-		
+		}		
+	}
+
+	public int update(ContentValues values, String selection, String[] selectionArgs) {
+		Log.d(TAG, "update on " + values);
+		SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+		try {
+		    return db.update(TABLE, values, selection, selectionArgs);
+		} finally {
+			db.close();
+		}		
+	}
+	public int delete(String selection, String[] selectionArgs) {
+		Log.d(TAG, "delete on " + selection);
+		SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+		try {
+		    return db.delete(TABLE, selection, selectionArgs);
+		} finally {
+			db.close();
+		}		
+	}	
+	
+	public Cursor query(String[] projection, String selection, String[] selectionArgs, String sortOrder){
+		SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+		return db.query(TABLE, projection, selection, selectionArgs, null, null, GET_ALL_ORDER_BY);
 	}
 	
 	public Cursor getStatusUpdates(){

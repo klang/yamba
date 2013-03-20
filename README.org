@@ -1,0 +1,33 @@
+* yamda
+
+The first 9 chapters of the book are smooth and by the numbers. Very few things are out of wack, even when the book is used on a different API level a few years after it's initial release.
+
+.. but in chapter 10, things start falling apart.
+
+The refactoring done at the end of chapter 9 is totally ignored and code changes are used in both old and new versions at random points.
+
+** chapter 10
+
+** chapter 11
+
+** chapter 12 - Content providers
+
+We are still not using the refactored StatusData object introduced in Chapter 9.
+
+*** Inserting Data, p.177
+In this chapter we try to touch the private parts of StatusData, but at some point we have to say "no, hands off, I'm being violated here".
+
+So, we can either bend to the wishes of the StatusProvider and change the access to the private dbHelper in this class, or we can change the `insertOrIgnore` method to return the id of the column inserted. 
+We will do just that. The `insert` method in the StatusProvider thus reduces to statusData.insertOrIgnore(values), returning an id. This id is transformed to a RuntimeExcpetion (why this is nessesary, I don't know..) and a return of the appropriate Uri.
+
+I'm all for the refactoring done in Chapter 9 and I think it's a shame that the work done there is largely ignored in the following chapters.
+
+*** Updating Data
+Of course the same strategy is applied in this case .. StatusData should have the method to update data, so that's the way I'll implement it.
+
+Naturally, getId isn't introduced untill later in the chapter (p.181), so we will introduce it now to avoid compile errors as much as possible.
+
+*** Deleting Data, p.179
+sigh 
+*** Querying Data, p.179 
+sigh
