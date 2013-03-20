@@ -33,4 +33,10 @@ sigh
 sigh
 *** Updating the Android Manifest File, p.181
 
+*** Widget, p. 186
+
+.. and of course it doesn't work
+
 ** [updating status is no longer possible and I can't be bothered to figure out why anymore]
+
+ 

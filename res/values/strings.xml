@@ -35,4 +35,5 @@
     <string name="send_timeline_notifications_permission_description"></string>
     <string name="receive_timeline_notifications_permission_label"></string>
     <string name="receive_timeline_notifications_permission_description"></string>
+    <string name="msgLastTimelineUpdate">nothing</string>
 </resources>

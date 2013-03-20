@@ -45,6 +45,18 @@
            <intent-filter>
                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
            </intent-filter>    
-       </receiver>        
+       </receiver> 
+       <receiver 
+           android:name=".YambaWidget"
+           android:label="@string/msgLastTimelineUpdate">
+           <intent-filter>
+               <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+           </intent-filter>
+           <intent-filter>
+               <action android:name="dk.lang.yamba.NEW_STATUS" />
+           </intent-filter>
+           <meta-data android:name="android.appwidget.provider"
+               android:resource="@xml/yamba_widget_info" />
+           </receiver>
         </application>
 </manifest>
