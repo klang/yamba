@@ -90,14 +90,16 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		new PostToTwitter().execute(status);
 		Log.d(TAG, "onClicked");
 	}
-	
+	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
-	
+	*/
+	// TODO: this has been moved to the BaseActivity
+	/*
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
@@ -113,6 +115,7 @@ public class StatusActivity extends Activity implements OnClickListener, TextWat
 		}
 		return true;
 	}
+	*/
 	
 	// TextWatcher methods
 	public void afterTextChanged(Editable statusText) {

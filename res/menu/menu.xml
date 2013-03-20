@@ -5,6 +5,4 @@
     <item android:id="@+id/itemPurge" android:icon="@android:drawable/ic_delete" android:title="@string/titlePurge"></item>
     <item android:id="@+id/itemTimeline" android:icon="@android:drawable/ic_media_pause" android:title="@string/titleTimeline"></item>
     <item android:id="@+id/itemStatus" android:icon="@android:drawable/ic_media_pause" android:title="@string/titleStatus"></item>
-    <item android:id="@+id/itemServiceStart" android:icon="@android:drawable/ic_media_play" android:title="@string/titleServiceStart"></item>
-    <item android:id="@+id/itemServiceStop" android:icon="@android:drawable/ic_media_pause" android:title="@string/titleServiceStop"></item>
 </menu>

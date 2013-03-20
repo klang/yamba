@@ -31,3 +31,6 @@ Naturally, getId isn't introduced untill later in the chapter (p.181), so we wil
 sigh 
 *** Querying Data, p.179 
 sigh
+*** Updating the Android Manifest File, p.181
+
+** [updating status is no longer possible and I can't be bothered to figure out why anymore]
